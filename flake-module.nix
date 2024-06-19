@@ -17,10 +17,12 @@ in
         options.nixosTests = {
           path = mkOption {
             type = types.pathInStore;
+            description = "Path to NixOS tests folder";
           };
           args = mkOption {
             default = {};
             type = types.attrsOf types.anything;
+            description = "Args to pass to each test";
           };
         };
         config.legacyPackages.nixosTests = mkLegacyPackages config.nixosTests.path;

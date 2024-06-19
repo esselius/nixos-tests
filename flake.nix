@@ -3,6 +3,14 @@
   outputs = inputs: inputs.flake-parts.lib.mkFlake
     { inherit inputs; }
     {
-      flake.flakeModule = import ./flake-module.nix;
+      systems = [ "aarch64-linux" "aarch64-darwin" "x86_64-linux" "x86_64-darwin"  ];
+
+      flake = {
+        flakeModule = import ./flake-module.nix;
+        templates.default = {
+          path = ./template;
+          description = "Basic nixos tests flake";
+        };
+      };
     };
 }
