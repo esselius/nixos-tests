@@ -9,7 +9,8 @@ in
   options = {
     perSystem = mkPerSystemOption ({ config, pkgs, ... }:
       let
-        testDriver = path: (pkgs.testers.runNixOSTest (import path config.nixosTests.args)).driver;
+        testDriver = path: (pkgs.testers.runNixOSTest (interimModule path)).driver;
+        interimModule = m: { imports = [m]; _module = { inherit (config.nixosTests) args; }; };
         nixosTests = dir: a: _: { ${removeSuffix ".nix" a} = testDriver (dir + ("/" + a)); };
         mkLegacyPackages = dir: concatMapAttrs (nixosTests dir) (readDir dir);
       in
